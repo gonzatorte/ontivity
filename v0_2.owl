@@ -6,8 +6,11 @@
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:time="http://www.w3.org/2006/time#">
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:time="http://www.w3.org/2006/time#"
+     xmlns:terms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="http://example.org/agenda#AgendaOntology">
+        <owl:imports rdf:resource="http://www.w3.org/2006/time#2016"/>
         <rdfs:comment xml:lang="es">v0.1 – Núcleo de actividades y tiempo (OWL-Time).</rdfs:comment>
         <rdfs:label xml:lang="es">Ontología de Actividades Personales</rdfs:label>
     </owl:Ontology>
