@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://example.org/agenda#"
+     xml:base="http://example.org/agenda#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:time="http://www.w3.org/2006/time#">
+  <owl:Ontology rdf:about="http://example.org/agenda#AgendaOntology">
+    <rdfs:label xml:lang="es">Ontología de Actividades Personales</rdfs:label>
+    <rdfs:comment xml:lang="es">v0.1 – Núcleo de actividades y tiempo (OWL-Time).</rdfs:comment>
+  </owl:Ontology>
+
+  <!-- Classes -->
+  <owl:Class rdf:about="http://example.org/agenda#Actividad"/>
+  <owl:Class rdf:about="http://example.org/agenda#Tarea">
+    <rdfs:subClassOf rdf:resource="http://example.org/agenda#Actividad"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/agenda#Evento">
+    <rdfs:subClassOf rdf:resource="http://example.org/agenda#Actividad"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://example.org/agenda#ocurreEn"/>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2006/time#ProperInterval"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/agenda#Meta"/>
+  <owl:Class rdf:about="http://example.org/agenda#Estado"/>
+  <owl:Class rdf:about="http://example.org/agenda#Prioridad"/>
+  <owl:Class rdf:about="http://example.org/agenda#Participante"/>
+  <owl:Class rdf:about="http://example.org/agenda#Ubicacion"/>
+  <owl:Class rdf:about="http://example.org/agenda#VentanaDisponibilidad"/>
+
+  <!-- Object Properties -->
+  <owl:ObjectProperty rdf:about="http://example.org/agenda#contribuyeA">
+    <rdfs:domain rdf:resource="http://example.org/agenda#Actividad"/>
+    <rdfs:range  rdf:resource="http://example.org/agenda#Meta"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/agenda#dependeDe">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    <rdfs:domain rdf:resource="http://example.org/agenda#Actividad"/>
+    <rdfs:range  rdf:resource="http://example.org/agenda#Actividad"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/agenda#involucra">
+    <rdfs:domain rdf:resource="http://example.org/agenda#Actividad"/>
+    <rdfs:range  rdf:resource="http://example.org/agenda#Participante"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/agenda#ubicadoEn">
+    <rdfs:domain rdf:resource="http://example.org/agenda#Actividad"/>
+    <rdfs:range  rdf:resource="http://example.org/agenda#Ubicacion"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/agenda#ocurreEn">
+    <rdfs:domain rdf:resource="http://example.org/agenda#Evento"/>
+    <rdfs:range  rdf:resource="http://www.w3.org/2006/time#ProperInterval"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/agenda#tieneVentana">
+    <rdfs:domain rdf:resource="http://example.org/agenda#Participante"/>
+    <rdfs:range  rdf:resource="http://example.org/agenda#VentanaDisponibilidad"/>
+  </owl:ObjectProperty>
+
+  <!-- Data Properties -->
+  <owl:DatatypeProperty rdf:about="http://example.org/agenda#tieneDuracion">
+    <rdfs:domain rdf:resource="http://example.org/agenda#Actividad"/>
+    <rdfs:range  rdf:resource="http://www.w3.org/2001/XMLSchema#duration"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/agenda#tieneFechaLimite">
+    <rdfs:domain rdf:resource="http://example.org/agenda#Tarea"/>
+    <rdfs:range  rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/agenda#tieneEstado">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://example.org/agenda#Actividad"/>
+    <rdfs:range  rdf:resource="http://example.org/agenda#Estado"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/agenda#tienePrioridad">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://example.org/agenda#Actividad"/>
+    <rdfs:range  rdf:resource="http://example.org/agenda#Prioridad"/>
+  </owl:ObjectProperty>
+
+  <!-- Individuals (catalogs) -->
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Alta">
+    <rdf:type rdf:resource="http://example.org/agenda#Prioridad"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Media">
+    <rdf:type rdf:resource="http://example.org/agenda#Prioridad"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Baja">
+    <rdf:type rdf:resource="http://example.org/agenda#Prioridad"/>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Planificada">
+    <rdf:type rdf:resource="http://example.org/agenda#Estado"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#EnCurso">
+    <rdf:type rdf:resource="http://example.org/agenda#Estado"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Completada">
+    <rdf:type rdf:resource="http://example.org/agenda#Estado"/>
+  </owl:NamedIndividual>
+
+  <!-- Scenario individuals -->
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Michel">
+    <rdf:type rdf:resource="http://example.org/agenda#Participante"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Gonzalo">
+    <rdf:type rdf:resource="http://example.org/agenda#Participante"/>
+  </owl:NamedIndividual>
+
+  <!-- Reunion FIng event -->
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#ReunionFIng">
+    <rdf:type rdf:resource="http://example.org/agenda#Evento"/>
+    <involucra rdf:resource="http://example.org/agenda#Michel"/>
+    <involucra rdf:resource="http://example.org/agenda#Gonzalo"/>
+    <tienePrioridad rdf:resource="http://example.org/agenda#Alta"/>
+    <tieneEstado rdf:resource="http://example.org/agenda#Planificada"/>
+    <ocurreEn rdf:resource="http://example.org/agenda#Int_ReunionFIng"/>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Int_ReunionFIng">
+    <rdf:type rdf:resource="http://www.w3.org/2006/time#ProperInterval"/>
+    <time:hasBeginning rdf:resource="http://example.org/agenda#Reu_B"/>
+    <time:hasEnd rdf:resource="http://example.org/agenda#Reu_E"/>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Reu_B">
+    <rdf:type rdf:resource="http://www.w3.org/2006/time#Instant"/>
+    <time:inXSDDateTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-11-03T10:30:00-03:00</time:inXSDDateTime>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Reu_E">
+    <rdf:type rdf:resource="http://www.w3.org/2006/time#Instant"/>
+    <time:inXSDDateTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-11-03T11:30:00-03:00</time:inXSDDateTime>
+  </owl:NamedIndividual>
+
+  <!-- Consulta Médica event (overlaps with Reunion) -->
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#ConsultaMedica">
+    <rdf:type rdf:resource="http://example.org/agenda#Evento"/>
+    <tienePrioridad rdf:resource="http://example.org/agenda#Media"/>
+    <tieneEstado rdf:resource="http://example.org/agenda#Planificada"/>
+    <ocurreEn rdf:resource="http://example.org/agenda#Int_Consulta"/>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Int_Consulta">
+    <rdf:type rdf:resource="http://www.w3.org/2006/time#ProperInterval"/>
+    <time:hasBeginning rdf:resource="http://example.org/agenda#Cons_B"/>
+    <time:hasEnd rdf:resource="http://example.org/agenda#Cons_E"/>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Cons_B">
+    <rdf:type rdf:resource="http://www.w3.org/2006/time#Instant"/>
+    <time:inXSDDateTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-11-03T11:00:00-03:00</time:inXSDDateTime>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#Cons_E">
+    <rdf:type rdf:resource="http://www.w3.org/2006/time#Instant"/>
+    <time:inXSDDateTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-11-03T11:30:00-03:00</time:inXSDDateTime>
+  </owl:NamedIndividual>
+
+  <!-- Tasks -->
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#EstudioOntologia">
+    <rdf:type rdf:resource="http://example.org/agenda#Tarea"/>
+    <tieneDuracion rdf:datatype="http://www.w3.org/2001/XMLSchema#duration">PT45M</tieneDuracion>
+    <tienePrioridad rdf:resource="http://example.org/agenda#Alta"/>
+    <tieneEstado rdf:resource="http://example.org/agenda#Planificada"/>
+    <tieneFechaLimite rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-11-07T17:00:00-03:00</tieneFechaLimite>
+    <dependeDe rdf:resource="http://example.org/agenda#LecturaPaper"/>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="http://example.org/agenda#LecturaPaper">
+    <rdf:type rdf:resource="http://example.org/agenda#Tarea"/>
+    <tieneDuracion rdf:datatype="http://www.w3.org/2001/XMLSchema#duration">PT30M</tieneDuracion>
+    <tieneEstado rdf:resource="http://example.org/agenda#Planificada"/>
+  </owl:NamedIndividual>
+
+</rdf:RDF>

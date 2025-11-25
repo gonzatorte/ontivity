@@ -1,29 +1,23 @@
 
 Log de actividades:
 	Le pasé el OOPS: https://oops.linkeddata.es/report.jsp
-	Agregados los disjoints
-		Al final casi todas las clases son disjoints menos Evento y Tarea
 
 Falta:
 	Hacer un caso de prueba interesante (meterle más instancias)
-	
-	Importar OWL-time para poder ejecutar reglas de solapamiento temporal
-		De correr OOPS obtuve class not explicitly declared as such using the primitives owl:Class
-				› http://www.w3.org/2006/time#Instant
-				› http://www.w3.org/2006/time#ProperInterval
-			Será que hace falta importar la ontología de OWL-Time?
 
+	Hacer que haga alguna inferencia
+		La de transitiva NO funciona OK.
+	
 	Leer el teórico del EVA
 
-	Cambiarle el prefijo
-		http://example.org/agenda# por algo como http://michel-gonza.org/agenda# o http://ontivity.org/agenda#
-
-	Hay que darle nombre a las objetPropery inversas?
+	En la segunda entrega del informe se dice
+	HU2. Como usuario, quiero que el sistema me avise si dos eventos se solapan para reprogramar uno.
+ 		Criterio: creación de ex:ConflictoTemporal (o resultado de consulta temporal) ligado a ambos eventos.
 
 	Reglas para validaciones hacen falta?
-		http://example.org/agenda#dependeDe debería ser simétrica
+		Quiero que las tareas que son dependientes de otras sucedan antes.
 
-		ocurreEn debería ser funcional?
+		http://example.org/agenda#dependeDe debería ser asimétrica
 
 		Prioridad tendrían que tener una ordenación (Prioridad alta > Prioridad media > Prioridad baja)
 			transitiva, ¿irreflexiba y asimétrica?
@@ -37,26 +31,20 @@ Falta:
 			Para Eventos (que tienen intervalo de tiempo) las reglas se extienden a evitar solapamiento y precedencia temporal
 
 Dudas?
-	¿Que modelaban las ventanas de tiempo?
-		Eran como "espacios libres o reservados" por un participante para que sea incluído en un evento?
-			Aquí es importante que, al asignar una tarea, exista un "overlaps" con un evento...
-			Tiene pocas relaciones con otras clases
-	¿Hermit va a ser el razonador?
-	¿ocurreEn es un ObjectProperty que apunta una entidad time:ProperInterval o un DataProperty que apunta a un DataType TimeInterval?
-		Tiene que haber una correlación entre la duración del time:ProperInterval con la duración del tieneDuración...
-			Agregar regla para eso...
-				Es medio raro pq
-					los time:ProperInterval tienen una ObjectProp 'has temporal duration' con 'Temporal duration' que a su vez tiene una DataProp 'Numeric value of temporal duration' y una ObjectProp 'temporal unit type' con 'Temporal unit' que tiene instancias como 'Hour (unit of temporal duration)' o 'Second (unit of temporal duration)'
-					
-					Tb tiene su versión en 'has XSD duration' que SI apunta a un xsd:duration, que en este caso es recomendable utilizar en vez de la versión anterior
+	Esta restriccion tiene sentido? Tiene que ser rígida?
+		<owl:Restriction>
+		    <owl:onProperty rdf:resource="http://example.org/agenda#ocurreEn"/>
+		    <owl:someValuesFrom rdf:resource="http://www.w3.org/2006/time#ProperInterval"/>
+		</owl:Restriction>
 
-					Nosotros tenemos por otro lado, 'Actividad' 'tieneDuracion' 'xsd:duration', que es más directo
-	¿dudas sobre la complejidad de usar OWL-Time... es un modelo fundacional que requiere más reglas para ser optimizado...
-		Quizás es mejor tener en vez de ProperInterval un Interval que tanga dos DataProp funcional RANGE xsd:datetime llamadas "iniciaEn" "finalizaEn"
-			No modelar tareas sin fin (o quizás "infinity" es un xsd:datetime...)
-			Verificar los overlaps con mayor y menor
-
-Otras propuestas (como para la defensa):
+Otras propuestas y comentarios (como para la defensa):
 	La ontología permite definir (gracias a OWL-Time) fechas más complejas con labels "día de los mártires estudiantiles" que además sean "el segundo domingo de mayo" o turismo como "le segunda luna llena del año". Considerar esos feriados puede ser importante al momento de planear un calendario...
 
 	xsd:datetime tb pierde la capacidad de especiicar de manera más semántica cosas como el timezone...
+
+	Se debió usar el razonador ELK puesto que Hermit no permite funcionar con OWL-Time puesto que el mismo tiene un axioma
+	An error occurred during reasoning: Non-simple property '<http://www.w3.org/2006/time#disjoint>' or its inverse appears in disjoint properties axiom..
+	:intervalAfter rdfs:subPropertyOf :after , :intervalDisjoint .
+
+	Se podría extender la función time para que incluyera varios intervalos
+		Es mejor hacer la adaptación a nivel de OWL-Time pq en caso de que un evento tenga muchos intervalos, no queda claro si es un OR o un AND, etc.
